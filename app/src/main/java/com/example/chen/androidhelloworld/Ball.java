@@ -29,7 +29,7 @@ public class Ball {
         this.worldView = worldView;
 
         setX(120);
-        setY(120);
+        setY(220);
         setxSpeed(0);
         setySpeed(0);
         updatePosition(x,y);
@@ -37,7 +37,7 @@ public class Ball {
 
     public void resetCoordinate(float screenWidth, float screenHeight, float x, float y, float xSpeed, float ySpeed){
         this.x=(x/screenWidth)*this.screenWidth;
-        this.y=ballRadius;
+        this.y=(y/screenHeight)*this.screenHeight;
         this.xSpeed=xSpeed;
         this.ySpeed=ySpeed*(-1);
     }
@@ -49,17 +49,18 @@ public class Ball {
 
     public void updatePhysics(){
         if(x>screenWidth-ballRadius)
-            xSpeed=xSpeed/(-2);
+            xSpeed=xSpeed/(-1);
         if(y>screenHeight-ballRadius)
-            ySpeed=ySpeed/(-2);
+            ySpeed=ySpeed/(-1);
         if(x<ballRadius)
-            xSpeed=xSpeed/(-2);
+            xSpeed=xSpeed/(-1);
         if(y<ballRadius)
-            if(worldView.connected=false)
-                ySpeed=ySpeed/(-2);
-            else
-                if(worldView.onScreen=true)
-                    sendBluetoothMessage();
+            ySpeed=ySpeed/(-1);
+//            if(worldView.connected=false)
+//                ySpeed=ySpeed/(-1);
+//            else
+//                if(worldView.onScreen=true)
+//                    sendBluetoothMessage();
 
 
     }

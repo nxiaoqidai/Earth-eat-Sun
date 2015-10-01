@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.Window;
 
 import java.io.BufferedReader;
@@ -63,6 +64,15 @@ public class MainActivity extends Activity {
     };
 
 
+
+
+
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
     private void startBluetooth() {
         mBluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
@@ -97,13 +107,6 @@ public class MainActivity extends Activity {
 
 
     }
-
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
-    }
-
-
 
     private class ServerThread extends Thread{
         private final BluetoothServerSocket myServerSocket;
