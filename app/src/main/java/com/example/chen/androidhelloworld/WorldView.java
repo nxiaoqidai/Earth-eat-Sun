@@ -1,6 +1,7 @@
 package com.example.chen.androidhelloworld;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by chenxixiang on 15/9/24.
@@ -20,12 +22,20 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
     private SurfaceHolder surfaceHolder;
     private boolean running = false;
     public Ball ball;
-    public Food food;
+    public Food[] food= new Food[30];
+
     public boolean onScreen = true;
     public boolean connected = false;
 
-    private int width;          //short screen/ x / 宽度
-    private int height;         //long screen/ y / 长度
+    private int screenWidth;          //short screen/ x / 宽度
+    private int screenHeight;         //long screen/ y / 长度
+
+    private int worldWidth;
+    private int worldHeight;
+
+    private float publicX;      //global x speed;
+    private float publicY;      //global y speed;
+
     public OutputStream outputStream;
 
     public WorldView (Context context, AttributeSet attrs) {
@@ -40,25 +50,29 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
         this.surfaceHolder=surfaceHolder;
         this.running=true;
 
+        this.worldWidth=1080*6;
+        this.worldHeight=1920*6;
+        screenWidth=this.getWidth();
+        screenHeight=this.getHeight();
+        for (int i=0;i<30;i++)
+            food[i]=new Food(this,null,worldWidth,worldHeight);
 
-        width=this.getWidth();
-        height=this.getHeight();
+        ball = new Ball(this,null,worldWidth,worldHeight);
 
-        food=new Food(this,null,height,width);
-        ball = new Ball(this,null,height,width);
+        //UI Thread;
         Thread t=new Thread(this);
         t.start();
     }
 
     public void run(){
+
+
         while(running){
             Canvas canvas=null;
             try{
                 canvas=surfaceHolder.lockCanvas(null);
                 synchronized (surfaceHolder){
-                    this.drawBackground(canvas);
-                    food.onDraw(canvas);
-                    ball.onDraw(canvas);
+                    dataCalculator(canvas);
 
                 }
 
@@ -71,6 +85,18 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
             }catch (Exception e) {}
 
         }
+    }
+
+    public void dataCalculator(Canvas canvas){
+        publicX=ball.getX();
+        publicY=ball.getY();
+
+        this.drawBackground(canvas);
+
+        for(int i=0;i<food.length;i++)
+            food[i].onDraw(canvas);
+        ball.onDraw(canvas);
+        eatFood(ball,food);
     }
 
     @Override
@@ -86,7 +112,9 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 
     //touch the back button
     @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder){}
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder){
+
+    }
 
     //draw background.
     protected void drawBackground(Canvas canvas){
@@ -94,14 +122,40 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
         paint.setAntiAlias(true);
         paint.setColor(Color.GRAY);
 
+        //draw background
         canvas.drawColor(Color.WHITE);
 
-        for (int i=0;i<width; i=i+150){
-            for (int j=0;j<height; j=j+150){
-                canvas.drawCircle(i,j,6,paint);
+        //draw coordinate point
+        for (int i=0;i<worldWidth; i=i+150){
+            for (int j=0;j<worldHeight; j=j+150){
+                canvas.drawCircle(i-publicX+screenWidth/2,j-publicY+screenHeight/2,5,paint);
             }
         }
     }
 
+    public void eatFood(Ball ball, Food[] food){
+        for(int i=0;i<food.length;i++) {
+            if (Math.pow(food[i].x - ball.x, 2) + Math.pow(food[i].y- ball.y, 2) <= Math.pow(ball.getBallRadius(), 2)) {
+                ball.setBallRadius((float)(Math.sqrt(Math.pow(ball.getBallRadius(), 2) + Math.pow(food[i].getRadius(), 2))));
 
+                food[i] = new Food(this,null,worldWidth,worldHeight);
+            }
+        }
+    }
+
+    public float getPublicX() {
+        return publicX;
+    }
+
+    public float getPublicY() {
+        return publicY;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
 }

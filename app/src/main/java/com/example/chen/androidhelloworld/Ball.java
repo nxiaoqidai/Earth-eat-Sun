@@ -11,6 +11,8 @@ import java.io.IOException;
  * Created by chenxixiang on 15/9/24.
  */
 public class Ball {
+
+
     private float ballRadius = 40;
 
     private WorldView worldView;
@@ -19,25 +21,26 @@ public class Ball {
     public float y;
     private float xSpeed;
     private float ySpeed;
-    private int screenWidth;
-    private int screenHeight;
+    private int worldWidth;
+    private int worldHeight;
+    Paint paint=new Paint();
 
-    public Ball(WorldView worldView, Bitmap bitmap, int screenHeight, int screenWidth) {
+    public Ball(WorldView worldView, Bitmap bitmap, int worldWidth, int worldHeight) {
         this.bmp = bitmap;
-        this.screenHeight = screenHeight;
-        this.screenWidth = screenWidth;
+        this.worldHeight = worldHeight;
+        this.worldWidth = worldWidth;
         this.worldView = worldView;
 
-        setX(120);
-        setY(220);
+        setX(this.worldWidth/2);
+        setY(this.worldHeight/2);
         setxSpeed(0);
         setySpeed(0);
         updatePosition(x,y);
     }
 
-    public void resetCoordinate(float screenWidth, float screenHeight, float x, float y, float xSpeed, float ySpeed){
-        this.x=(x/screenWidth)*this.screenWidth;
-        this.y=(y/screenHeight)*this.screenHeight;
+    public void resetCoordinate(float worldWidth, float worldHeight, float x, float y, float xSpeed, float ySpeed){
+        this.x=(x/worldWidth)*this.worldWidth;
+        this.y=(y/worldHeight)*this.worldHeight;
         this.xSpeed=xSpeed;
         this.ySpeed=ySpeed*(-1);
     }
@@ -48,25 +51,20 @@ public class Ball {
     }
 
     public void updatePhysics(){
-        if(x>screenWidth-ballRadius)
+        if((x>worldWidth-ballRadius)&&(xSpeed>0))
             xSpeed=xSpeed/(-1);
-        if(y>screenHeight-ballRadius)
+        if((y>worldHeight-ballRadius)&&(ySpeed>0))
             ySpeed=ySpeed/(-1);
-        if(x<ballRadius)
+        if((x<ballRadius)&&(xSpeed<0))
             xSpeed=xSpeed/(-1);
-        if(y<ballRadius)
+        if((y<ballRadius)&&(ySpeed<0))
             ySpeed=ySpeed/(-1);
-//            if(worldView.connected=false)
-//                ySpeed=ySpeed/(-1);
-//            else
-//                if(worldView.onScreen=true)
-//                    sendBluetoothMessage();
 
 
     }
 
     public void onDraw(Canvas canvas){
-        Paint paint=new Paint();
+
         paint.setAntiAlias(true);
         paint.setColor(Color.YELLOW);
 
@@ -74,7 +72,7 @@ public class Ball {
         if(worldView.onScreen){
             moveBall();
             updatePosition(x,y);
-            canvas.drawCircle(x,y,ballRadius,paint);
+            canvas.drawCircle(worldView.getScreenWidth()/2,worldView.getScreenHeight()/2,ballRadius,paint);
         }
     }
 
@@ -83,9 +81,9 @@ public class Ball {
             StringBuffer sb = new StringBuffer();
             sb.append("ShowOnScreen");
             sb.append(",");
-            sb.append(String.valueOf(screenWidth));
+            sb.append(String.valueOf(worldWidth));
             sb.append(",");
-            sb.append(String.valueOf(screenHeight));
+            sb.append(String.valueOf(worldHeight));
             sb.append(",");
             sb.append(String.valueOf(x));
             sb.append(",");
@@ -135,6 +133,14 @@ public class Ball {
 
     public void setxSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
+    }
+
+    public float getBallRadius() {
+        return ballRadius;
+    }
+
+    public void setBallRadius(float ballRadius) {
+        this.ballRadius = ballRadius;
     }
 
     public void updatePosition(float x, float y) {
