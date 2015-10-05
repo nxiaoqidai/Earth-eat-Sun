@@ -21,9 +21,14 @@ public class Ball {
     public float y;
     private float xSpeed;
     private float ySpeed;
+    private float totalSpeed = 24;
     private int worldWidth;
     private int worldHeight;
-    Paint paint=new Paint();
+    private String playerName;
+
+    float textBaseY;
+    Paint paintCircle=new Paint();
+    Paint paintName=new Paint();
 
     public Ball(WorldView worldView, Bitmap bitmap, int worldWidth, int worldHeight) {
         this.bmp = bitmap;
@@ -32,10 +37,24 @@ public class Ball {
         this.worldView = worldView;
 
         setX(this.worldWidth/2);
-        setY(this.worldHeight/2);
+        setY(this.worldHeight / 2);
         setxSpeed(0);
         setySpeed(0);
-        updatePosition(x,y);
+        updatePosition(x, y);
+
+        //wait for inputting player name.
+        playerName = "MyName";
+
+        paintCircle.setAntiAlias(true);
+        paintCircle.setColor(Color.YELLOW);
+
+        paintName.setAntiAlias(true);
+        paintName.setColor(Color.BLACK);
+        paintName.setTextSize(30);
+        paintName.setTextAlign(Paint.Align.CENTER);
+        Paint.FontMetrics fontMetrics = paintName.getFontMetrics();
+        float fontHeight = fontMetrics.bottom - fontMetrics.top;
+        textBaseY = worldView.getScreenHeight()/2 +fontHeight/4;        //there are some small problems in the calculation
     }
 
     public void resetCoordinate(float worldWidth, float worldHeight, float x, float y, float xSpeed, float ySpeed){
@@ -60,19 +79,18 @@ public class Ball {
         if((y<ballRadius)&&(ySpeed<0))
             ySpeed=ySpeed/(-1);
 
-
     }
 
     public void onDraw(Canvas canvas){
 
-        paint.setAntiAlias(true);
-        paint.setColor(Color.YELLOW);
+
 
         updatePhysics();
         if(worldView.onScreen){
             moveBall();
-            updatePosition(x,y);
-            canvas.drawCircle(worldView.getScreenWidth()/2,worldView.getScreenHeight()/2,ballRadius,paint);
+            updatePosition(x, y);
+            canvas.drawCircle(worldView.getScreenWidth() / 2, worldView.getScreenHeight() / 2, ballRadius, paintCircle);
+            canvas.drawText(playerName,worldView.getScreenWidth()/2,textBaseY ,paintName);
         }
     }
 
@@ -146,5 +164,13 @@ public class Ball {
     public void updatePosition(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setTotalSpeed(float totalSpeed) {
+        this.totalSpeed = totalSpeed;
+    }
+
+    public float getTotalSpeed() {
+        return totalSpeed;
     }
 }

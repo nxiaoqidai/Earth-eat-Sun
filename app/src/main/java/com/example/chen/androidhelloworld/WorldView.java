@@ -1,17 +1,14 @@
 package com.example.chen.androidhelloworld;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * Created by chenxixiang on 15/9/24.
@@ -22,7 +19,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
     private SurfaceHolder surfaceHolder;
     private boolean running = false;
     public Ball ball;
-    public Food[] food= new Food[30];
+    public Food[] foods= new Food[50];
+    public Obstacle[] obstacles = new Obstacle[5];
 
     public boolean onScreen = true;
     public boolean connected = false;
@@ -50,12 +48,18 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
         this.surfaceHolder=surfaceHolder;
         this.running=true;
 
-        this.worldWidth=1080*6;
-        this.worldHeight=1920*6;
+        this.worldWidth=9000;
+        this.worldHeight=15000;
         screenWidth=this.getWidth();
         screenHeight=this.getHeight();
-        for (int i=0;i<30;i++)
-            food[i]=new Food(this,null,worldWidth,worldHeight);
+
+        //initialize the foods
+        for (int i=0;i<50;i++)
+            foods[i]=new Food(this,worldWidth,worldHeight);
+
+        //initialize the obstacles
+        for (int j=0; j<5;j++)
+            obstacles[j]=new Obstacle(this,worldWidth,worldHeight);
 
         ball = new Ball(this,null,worldWidth,worldHeight);
 
@@ -80,7 +84,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
                 if (canvas!=null)
                     surfaceHolder.unlockCanvasAndPost(canvas);
             }try{
-                //10帧
+                //100 frame/s
                 Thread.sleep(10);
             }catch (Exception e) {}
 
@@ -93,10 +97,13 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 
         this.drawBackground(canvas);
 
-        for(int i=0;i<food.length;i++)
-            food[i].onDraw(canvas);
+        for(int i=0;i<obstacles.length;i++)
+            obstacles[i].onDraw(canvas);
+
+        for(int j=0;j<foods.length;j++)
+            foods[j].onDraw(canvas);
         ball.onDraw(canvas);
-        eatFood(ball,food);
+        eatFood(ball,foods);
     }
 
     @Override
@@ -126,8 +133,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
         canvas.drawColor(Color.WHITE);
 
         //draw coordinate point
-        for (int i=0;i<worldWidth; i=i+150){
-            for (int j=0;j<worldHeight; j=j+150){
+        for (int i=0;i<=worldWidth; i=i+150){
+            for (int j=0;j<=worldHeight; j=j+150){
                 canvas.drawCircle(i-publicX+screenWidth/2,j-publicY+screenHeight/2,5,paint);
             }
         }
@@ -138,7 +145,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
             if (Math.pow(food[i].x - ball.x, 2) + Math.pow(food[i].y- ball.y, 2) <= Math.pow(ball.getBallRadius(), 2)) {
                 ball.setBallRadius((float)(Math.sqrt(Math.pow(ball.getBallRadius(), 2) + Math.pow(food[i].getRadius(), 2))));
 
-                food[i] = new Food(this,null,worldWidth,worldHeight);
+                food[i] = new Food(this,worldWidth,worldHeight);
             }
         }
     }

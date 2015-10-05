@@ -64,9 +64,45 @@ public class MainActivity extends Activity {
     };
 
 
-
-
-
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        float xspeed;
+//        float yspeed;
+//        switch(event.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+////                if (event.getX()<=250&&event.getY()<=250)
+////                    worldView.spaceDivision();
+////                else
+//                    for(int i=0;i<worldView.ball.size();i++) {
+//                        xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                        yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                        worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                        worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                    }
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                for(int i=0;i<worldView.ball.size();i++) {
+//                    xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                    yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                    worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                }
+//                break;
+////            case MotionEvent.ACTION_UP:
+////                for(int i=0;i<worldView.ball.size();i++) {
+////                    xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+////                    yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+////                    worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+////                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+////                }
+////                break;
+//
+//
+//        }
+//        return super.onTouchEvent(event);
+//    }
+//
+//
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main,menu);
@@ -248,6 +284,7 @@ public class MainActivity extends Activity {
             }
         }
     }
+
 
 }
 
