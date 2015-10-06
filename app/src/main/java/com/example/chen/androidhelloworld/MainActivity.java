@@ -10,6 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +38,8 @@ public class MainActivity extends Activity {
     private boolean isServer= true;
     private WorldView worldView;
 
+
+
     public BluetoothAdapter getMBluetoothAdapter(){
         return mBluetoothAdapter;
     }
@@ -44,7 +49,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
         setContentView(R.layout.activity_main);
+
+
 
         worldView = (WorldView) findViewById(R.id.worldView);
         startBluetooth();
@@ -64,22 +73,28 @@ public class MainActivity extends Activity {
     };
 
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float xspeed;
-//        float yspeed;
-//        switch(event.getAction()){
-//            case MotionEvent.ACTION_DOWN:
-////                if (event.getX()<=250&&event.getY()<=250)
-////                    worldView.spaceDivision();
-////                else
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float xspeed;
+        float yspeed;
+        switch(event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+//                if (event.getX()<=250&&event.getY()<=250)
+//                    worldView.spaceDivision();
+//                else
 //                    for(int i=0;i<worldView.ball.size();i++) {
 //                        xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
 //                        yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
 //                        worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
 //                        worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
 //                    }
-//                break;
+                for(int i=0;i<worldView.ball.size();i++) {
+                    xspeed = (float) (25 * (event.getX() - 540) / Math.sqrt(Math.pow(event.getX() - 540, 2) + Math.pow(event.getY() - 960, 2)));
+                    yspeed = (float) (25 * (event.getY() - 960) / Math.sqrt(Math.pow(event.getX() - 540, 2) + Math.pow(event.getY() - 960, 2)));
+                    worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+                }
+                break;
 //            case MotionEvent.ACTION_MOVE:
 //                for(int i=0;i<worldView.ball.size();i++) {
 //                    xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
@@ -88,21 +103,21 @@ public class MainActivity extends Activity {
 //                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
 //                }
 //                break;
-////            case MotionEvent.ACTION_UP:
-////                for(int i=0;i<worldView.ball.size();i++) {
-////                    xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
-////                    yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
-////                    worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
-////                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
-////                }
-////                break;
-//
-//
-//        }
-//        return super.onTouchEvent(event);
-//    }
-//
-//
+//            case MotionEvent.ACTION_UP:
+//                for(int i=0;i<worldView.ball.size();i++) {
+//                    xspeed = (float) (25 * (event.getX() - worldView.ball.get(i).x) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                    yspeed = (float) (25 * (event.getY() - worldView.ball.get(i).y) / Math.sqrt(Math.pow(event.getX() - worldView.ball.get(i).x, 2) + Math.pow(event.getY() - worldView.ball.get(i).y, 2)));
+//                    worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                    worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                }
+//                break;
+
+
+        }
+        return super.onTouchEvent(event);
+    }
+
+
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main,menu);
@@ -194,7 +209,9 @@ public class MainActivity extends Activity {
                                 float Xspeed=Float.parseFloat(coords.get(5));
                                 float Yspeed=Float.parseFloat(coords.get(6));
 
-                                worldView.ball.resetCoordinate(screenWidth, screenHeight, x, y, Xspeed, Yspeed);
+
+                                for(int i=0;i<worldView.ball.size();i++)
+                                worldView.ball.get(i).resetCoordinate(screenWidth, screenHeight, x, y, Xspeed, Yspeed);
 
                             }
 
@@ -263,7 +280,8 @@ public class MainActivity extends Activity {
                             float xSpeed = Float.parseFloat(coords.get(5));
                             float ySpeed = Float.parseFloat(coords.get(6));
 
-                            worldView.ball.resetCoordinate(screenWidth,screenHeight,x,y,xSpeed,ySpeed);
+                            for(int i=0;i<worldView.ball.size();i++)
+                            worldView.ball.get(i).resetCoordinate(screenWidth,screenHeight,x,y,xSpeed,ySpeed);
 
                         }
                     }catch (Exception e3){

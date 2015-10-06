@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="portrait"
+    android:id="@+id/login">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:text="Earth eat Sun"
+        android:textColor="#125895"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserName"
+        android:textColor="#783b29"
+
+        android:layout_alignBottom="@+id/controller"
+        android:layout_toStartOf="@+id/textView2" />
+
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true">
+
+        <requestFocus />
+    </EditText>
+
+
+
+
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/players"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Single Player"
+            android:id="@+id/singleplayer"
+            android:checked="true"
+            android:layout_above="@+id/radioGroup0"
+            android:layout_toEndOf="@+id/radioGroup1" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Multiple Player"
+            android:id="@+id/multiplayer"
+            android:layout_below="@+id/radioButton"
+            android:layout_alignStart="@+id/radioButton" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/controller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignWithParentIfMissing="false">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:text="Touch"
+            android:id="@+id/radioButton3"
+            android:checked="true"
+            android:layout_above="@+id/radioButton4"
+            android:layout_alignStart="@+id/radioButton4" />
+
+        <RadioButton
+            android:layout_width="102dp"
+            android:layout_height="47dp"
+            android:text="Gravity"
+            android:id="@+id/radioButton4"
+            android:layout_alignBaseline="@+id/button1"
+            android:layout_alignBottom="@+id/button1"
+            android:layout_toEndOf="@+id/textView2" />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

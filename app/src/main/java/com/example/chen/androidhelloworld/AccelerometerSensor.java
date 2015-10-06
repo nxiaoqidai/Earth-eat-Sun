@@ -49,8 +49,8 @@ public class AccelerometerSensor implements SensorEventListener{
                 lastUpdate=curTime;
                 float xspeed=(float)(-25*value[0]/Math.sqrt(Math.pow(value[0],2)+Math.pow(value[1],2)));
                 float yspeed=(float)(25*value[1]/Math.sqrt(Math.pow(value[0],2)+Math.pow(value[1],2)));
-                worldView.ball.setxSpeed(xspeed);
-                worldView.ball.setySpeed(yspeed);
+//                worldView.ball.get(0).setxSpeed(xspeed);
+//                worldView.ball.get(0).setySpeed(yspeed);
 //                worldView.ball.setxSpeed(worldView.ball.getxSpeed()+((-1*value[0])/15));
 //                worldView.ball.setySpeed(worldView.ball.getySpeed()+(value[1]/15));
 //                if (value[0]>0 && value[1]>0) {
