@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:screenOrientation="portrait"
-    android:id="@+id/login">
+    android:screenOrientation="landscape"
+    android:id="@+id/login"
+    style="fdadfafdsafdsafdsafdsafdsafds">
 
     <TextView
         android:id="@+id/textView2"
@@ -22,9 +23,9 @@
         android:layout_height="wrap_content"
         android:text="UserName"
         android:textColor="#783b29"
-
-        android:layout_alignBottom="@+id/controller"
-        android:layout_toStartOf="@+id/textView2" />
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@+id/editText1"
+        android:layout_toStartOf="@+id/editText1" />
 
 
     <EditText
@@ -33,7 +34,8 @@
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:minWidth="200dp">
 
         <requestFocus />
     </EditText>
@@ -48,13 +50,15 @@
         android:layout_height="wrap_content"
         android:text="Start"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="startGame" />
 
     <RadioGroup
         android:id="@+id/players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -63,15 +67,29 @@
             android:id="@+id/singleplayer"
             android:checked="true"
             android:layout_above="@+id/radioGroup0"
-            android:layout_toEndOf="@+id/radioGroup1" />
+            android:layout_toEndOf="@+id/radioGroup1"
+            android:onClick="singlePlayer"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Nightmare Mode"
+            android:id="@+id/nightmare"
+            android:clickable="true"
+            android:checked="false"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/textView1"
+            android:onClick="nightmareMode"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Multiple Player"
-            android:id="@+id/multiplayer"
+            android:id="@+id/multiPlayer"
             android:layout_below="@+id/radioButton"
             android:layout_alignStart="@+id/radioButton" />
+
     </RadioGroup>
 
     <RadioGroup
@@ -80,9 +98,10 @@
         android:layout_height="wrap_content"
 
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="false"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="false"
         android:layout_alignParentLeft="false"
+        android:layout_marginBottom="40dp"
         android:layout_alignWithParentIfMissing="false">
 
         <RadioButton

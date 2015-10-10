@@ -10,15 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +37,9 @@ public class MainActivity extends Activity {
     private boolean isServer= true;
     private WorldView worldView;
 
-
+    private String tempName;
+    private int screenWidth;
+    private int screenHeight;
 
     public BluetoothAdapter getMBluetoothAdapter(){
         return mBluetoothAdapter;
@@ -47,16 +48,28 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
-
+        DisplayMetrics dm = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        this.screenWidth=dm.widthPixels;
+        this.screenHeight=dm.heightPixels;
 
         worldView = (WorldView) findViewById(R.id.worldView);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        PlayerInfo playerInfo = (PlayerInfo) bundle.getSerializable("playerInfo");
+        worldView.setUsername(playerInfo.getPlayerName());
+
         startBluetooth();
+    }
+
+    public void splitButton(View view){
+        worldView.ball.get(0).setPlayerName("点了按钮");
     }
 
     private final BroadcastReceiver mReviver=new BroadcastReceiver() {
@@ -77,6 +90,9 @@ public class MainActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
         float xspeed;
         float yspeed;
+
+//        event.getX()
+
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
 //                if (event.getX()<=250&&event.getY()<=250)
@@ -89,10 +105,11 @@ public class MainActivity extends Activity {
 //                        worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
 //                    }
                 for(int i=0;i<worldView.ball.size();i++) {
-                    xspeed = (float) (25 * (event.getX() - 540) / Math.sqrt(Math.pow(event.getX() - 540, 2) + Math.pow(event.getY() - 960, 2)));
-                    yspeed = (float) (25 * (event.getY() - 960) / Math.sqrt(Math.pow(event.getX() - 540, 2) + Math.pow(event.getY() - 960, 2)));
+                    xspeed = (float) (25 * ((event.getRawX() - screenWidth/2) / Math.sqrt(Math.pow(event.getRawX() - screenHeight/2, 2) + Math.pow(event.getRawY() - screenHeight, 2))));
+                    yspeed = (float) (25 * ((event.getRawY() - screenHeight/2) / Math.sqrt(Math.pow(event.getRawX() - screenHeight/2, 2) + Math.pow(event.getRawY() - screenHeight, 2))));
                     worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
                     worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
+//                    float totalspeed = Math.sqrt(xspeed*xspeed+yspeed*yspeed);
                 }
                 break;
 //            case MotionEvent.ACTION_MOVE:

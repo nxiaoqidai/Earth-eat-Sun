@@ -1,5 +1,6 @@
 package com.example.chen.androidhelloworld;
 
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,14 +37,14 @@ public class Ball {
         this.worldWidth = worldWidth;
         this.worldView = worldView;
 
-        setX(this.worldWidth/2);
+        setX(this.worldWidth / 2);
         setY(this.worldHeight / 2);
         setxSpeed(0);
         setySpeed(0);
         updatePosition(x, y);
 
         //wait for inputting player name.
-        playerName = "MyName";
+        playerName= worldView.getUsername();
 
         paintCircle.setAntiAlias(true);
         paintCircle.setColor(Color.YELLOW);
@@ -172,5 +173,9 @@ public class Ball {
 
     public float getTotalSpeed() {
         return totalSpeed;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }

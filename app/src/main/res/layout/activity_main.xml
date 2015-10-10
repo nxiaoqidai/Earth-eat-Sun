@@ -4,14 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:screenOrientation="portrait"
+    android:screenOrientation="landscape"
     tools:context=".MainActivity">
 
     <com.example.chen.androidhelloworld.WorldView
         android:id="@+id/worldView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:screenOrientation="portrait"
-        />
+        android:screenOrientation="portrait" />
+
+    <Button
+        android:id="@+id/splitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Split"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:onClick="splitButton" />
+
+    <TextView
+        android:id="@+id/foodConsumed"
+        android:layout_width="95dp"
+        android:layout_height="30dp"
+        android:text="Score"
+
+        android:layout_gravity="left|bottom" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Rank:"
+        android:id="@+id/rank"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="20dp"/>
+
+
 
 </FrameLayout>

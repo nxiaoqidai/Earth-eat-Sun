@@ -40,6 +40,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 
     private boolean darkMode=true;
 
+    private String username;
+
 
     public OutputStream outputStream;
 
@@ -57,7 +59,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
         this.running=true;
 
         this.worldWidth=9000;
-        this.worldHeight=15000;
+        this.worldHeight=6000;
         screenWidth=this.getWidth();
         screenHeight=this.getHeight();
 
@@ -191,5 +193,13 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 
     public void setDarkMode(boolean darkMode) {
         this.darkMode = darkMode;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
