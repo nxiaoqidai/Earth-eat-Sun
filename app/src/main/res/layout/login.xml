@@ -90,6 +90,16 @@
             android:layout_below="@+id/radioButton"
             android:layout_alignStart="@+id/radioButton" />
 
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="To be the Server"
+            android:id="@+id/serverMode"
+            android:layout_below="@+id/players"
+            android:layout_alignStart="@+id/players"
+            android:onClick="serverMode"/>
+
     </RadioGroup>
 
     <RadioGroup

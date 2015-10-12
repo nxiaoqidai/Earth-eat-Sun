@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
 //                    }
                 for(int i=0;i<worldView.ball.size();i++) {
                     xspeed = (float) (25 * ((event.getRawX() - screenWidth/2) / Math.sqrt(Math.pow(event.getRawX() - screenHeight/2, 2) + Math.pow(event.getRawY() - screenHeight, 2))));
-                    yspeed = (float) (25 * ((event.getRawY() - screenHeight/2) / Math.sqrt(Math.pow(event.getRawX() - screenHeight/2, 2) + Math.pow(event.getRawY() - screenHeight, 2))));
+                    yspeed = (float) (25 * ((event.getRawY() - screenHeight/2) / Math.sqrt(Math.pow(event.getRawX() - screenHeight / 2, 2) + Math.pow(event.getRawY() - screenHeight, 2))));
                     worldView.ball.get(i).setxSpeed(xspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
                     worldView.ball.get(i).setySpeed(yspeed / (1 + (worldView.ball.get(i).getBallRadius() - 40) / 20));
 //                    float totalspeed = Math.sqrt(xspeed*xspeed+yspeed*yspeed);

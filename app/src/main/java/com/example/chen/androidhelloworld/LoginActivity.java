@@ -30,12 +30,14 @@ public class LoginActivity extends Activity {
         final RadioButton singlePlayerButton = (RadioButton) findViewById(R.id.singleplayer);
         final RadioButton toughButton =(RadioButton) findViewById(R.id.radioButton3);
         final Switch nightMareModeSwitch =(Switch) findViewById(R.id.nightmare);
+        final Switch serverModeSwitch =(Switch) findViewById(R.id.serverMode);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Boolean isSingle;
-                Boolean isNightmare=true;
-                Boolean isGravity=true;
+                Boolean isNightmare;
+                Boolean isGravity;
+                Boolean isServer;
 
                 if (editUsername.getText().toString().equals(""))
                     username="Anonymous";
@@ -47,8 +49,9 @@ public class LoginActivity extends Activity {
 
                 isGravity = !toughButton.isChecked();
                 isNightmare = nightMareModeSwitch.isChecked();
+                isServer= serverModeSwitch.isChecked();
 
-                PlayerInfo playerInfo=new PlayerInfo(username,isSingle,isNightmare,isGravity);
+                PlayerInfo playerInfo=new PlayerInfo(username,isSingle,isNightmare,isGravity,isServer);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("playerInfo", playerInfo);
 

@@ -11,8 +11,9 @@ public class PlayerInfo implements Serializable {
     private Boolean isSingle;
     private Boolean isNightmare;
     private Boolean isGravity;
+    private Boolean isServer;
 
-    public PlayerInfo(String playerName, Boolean isSingle, Boolean isNightmare, Boolean isGravity) {
+    public PlayerInfo(String playerName, Boolean isSingle, Boolean isNightmare, Boolean isGravity,Boolean isServer) {
         this.playerName = playerName;
         this.isSingle = isSingle;
         this.isNightmare = isNightmare;
@@ -37,4 +38,7 @@ public class PlayerInfo implements Serializable {
         return isGravity;
     }
 
+    public Boolean getIsServer() {
+        return isServer;
+    }
 }
