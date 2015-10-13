@@ -1,52 +1,54 @@
 package com.example.chen.androidhelloworld;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.Random;
-
 /**
  * Created by chenxixiang on 15/10/3.
  */
-public class Obstacle{
-
+public class Obstacle {
+    public int getRadius() {
+        return radius;
+    }
 
     private final int radius = 100;
-    private float x;
-    private float y;
+    public float x;
+    public float y;
+    private Bitmap bitmapOfFood;
     private WorldView worldView;
-    private int worldWidth;
-    private int worldHeight;
+    private int globalWidth;
+    private int globalHeight;
 
-    Paint paint=new Paint();
+    private int myColor;
 
-
-    public Obstacle(WorldView worldView, int worldWidth, int worldHeight) {
+    public Obstacle(WorldView worldView, Bitmap bitmap, int screenHeight, int screenWidth){
+        this.globalHeight=screenHeight;
+        this.globalWidth=screenWidth;
+        this.bitmapOfFood=bitmap;
         this.worldView=worldView;
-        this.worldWidth=worldWidth;
-        this.worldHeight=worldHeight;
         this.update();
     }
 
     public void onDraw(Canvas canvas){
+        Paint paint=new Paint();
         paint.setAntiAlias(true);
-        float publicX = worldView.getPublicX();
-        float publicY = worldView.getPublicY();
+
 
         if (worldView.onScreen) {
-            paint.setColor(Color.YELLOW);
-            canvas.drawCircle(x-publicX+worldView.getScreenWidth()/2, y-publicY+worldView.getScreenHeight()/2, radius, paint);
-        }
+            paint.setColor(myColor);
+            canvas.drawCircle(worldView.getWidth()/2+y-WorldView.getYposition(), worldView.getHeight()/2+x-WorldView.getXposition(), radius, paint);        }
     }
 
-    private void update() {
+    private void update(){
         Random random=new Random();
-        x=random.nextFloat()*worldWidth;
-        y=random.nextFloat()*worldHeight;
+        myColor=Color.GREEN;
+
+        x=worldView.getHeight()+random.nextFloat()*(globalWidth-worldView.getHeight()*2);
+        y=worldView.getWidth()+random.nextFloat()*(globalHeight-worldView.getWidth()*2);
     }
 
-    public int getRadius() {
-        return radius;
-    }
 }
+

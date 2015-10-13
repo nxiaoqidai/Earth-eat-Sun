@@ -3,7 +3,7 @@ package com.example.chen.androidhelloworld;
 import java.io.Serializable;
 
 /**
- * Created by chenxixiang on 15/10/8.
+ * Created by Wenzhuo Hao on 10/11/2015.
  */
 public class PlayerInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,9 +11,8 @@ public class PlayerInfo implements Serializable {
     private Boolean isSingle;
     private Boolean isNightmare;
     private Boolean isGravity;
-    private Boolean isServer;
 
-    public PlayerInfo(String playerName, Boolean isSingle, Boolean isNightmare, Boolean isGravity,Boolean isServer) {
+    public PlayerInfo(String playerName, Boolean isSingle, Boolean isNightmare, Boolean isGravity) {
         this.playerName = playerName;
         this.isSingle = isSingle;
         this.isNightmare = isNightmare;
@@ -38,7 +37,4 @@ public class PlayerInfo implements Serializable {
         return isGravity;
     }
 
-    public Boolean getIsServer() {
-        return isServer;
-    }
 }

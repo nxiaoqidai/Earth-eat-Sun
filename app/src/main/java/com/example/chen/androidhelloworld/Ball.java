@@ -1,10 +1,10 @@
 package com.example.chen.androidhelloworld;
 
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -13,8 +13,11 @@ import java.io.IOException;
  */
 public class Ball {
 
+    private float ballRadius = 50;
+    private int score=0;
+    private float weight=50;
+    private float preweight=50;
 
-    private float ballRadius = 40;
 
     private WorldView worldView;
     private Bitmap bmp;
@@ -22,32 +25,26 @@ public class Ball {
     public float y;
     private float xSpeed;
     private float ySpeed;
-    private float totalSpeed = 24;
-    private int worldWidth;
-    private int worldHeight;
-    private String playerName;
+    private int globalWidth;
+    private int globalHeight;
 
-    float textBaseY;
-    Paint paintCircle=new Paint();
+    public static String playerName;
     Paint paintName=new Paint();
+    float textBaseY;
 
-    public Ball(WorldView worldView, Bitmap bitmap, int worldWidth, int worldHeight) {
+
+    public Ball(WorldView worldView, Bitmap bitmap, int screenHeight, int screenWidth) {
         this.bmp = bitmap;
-        this.worldHeight = worldHeight;
-        this.worldWidth = worldWidth;
+        this.globalHeight = screenHeight;
+        this.globalWidth = screenWidth;
         this.worldView = worldView;
 
-        setX(this.worldWidth / 2);
-        setY(this.worldHeight / 2);
+        x=globalWidth/2;
+        y=globalHeight/2;
         setxSpeed(0);
         setySpeed(0);
-        updatePosition(x, y);
+     //   updatePosition(x, y);
 
-        //wait for inputting player name.
-        playerName= worldView.getUsername();
-
-        paintCircle.setAntiAlias(true);
-        paintCircle.setColor(Color.YELLOW);
 
         paintName.setAntiAlias(true);
         paintName.setColor(Color.BLACK);
@@ -55,15 +52,16 @@ public class Ball {
         paintName.setTextAlign(Paint.Align.CENTER);
         Paint.FontMetrics fontMetrics = paintName.getFontMetrics();
         float fontHeight = fontMetrics.bottom - fontMetrics.top;
-        textBaseY = worldView.getScreenHeight()/2 +fontHeight/4;        //there are some small problems in the calculation
+        textBaseY = worldView.getHeight()/2 +fontHeight/4;
     }
 
-    public void resetCoordinate(float worldWidth, float worldHeight, float x, float y, float xSpeed, float ySpeed){
-        this.x=(x/worldWidth)*this.worldWidth;
-        this.y=(y/worldHeight)*this.worldHeight;
-        this.xSpeed=xSpeed;
-        this.ySpeed=ySpeed*(-1);
-    }
+//    public void resetCoordinate(float screenWidth, float screenHeight, float x, float y, float xSpeed, float ySpeed){
+//        this.x=(x/screenWidth)*this.screenWidth;
+//        this.y=(y/screenHeight)*this.screenHeight;
+//        this.xSpeed=xSpeed;
+//        this.ySpeed=ySpeed*(-1);
+//    }
+
 
     public void moveBall(){
         x=x+xSpeed;
@@ -71,72 +69,131 @@ public class Ball {
     }
 
     public void updatePhysics(){
-        if((x>worldWidth-ballRadius)&&(xSpeed>0))
-            xSpeed=xSpeed/(-1);
-        if((y>worldHeight-ballRadius)&&(ySpeed>0))
-            ySpeed=ySpeed/(-1);
-        if((x<ballRadius)&&(xSpeed<0))
-            xSpeed=xSpeed/(-1);
-        if((y<ballRadius)&&(ySpeed<0))
-            ySpeed=ySpeed/(-1);
+        if(x>=globalWidth-worldView.getHeight()/2)
+            x=worldView.getHeight()/2;
+        if(y>=globalHeight -worldView.getWidth()/2)
+            y=worldView.getWidth()/2;
+        if(x<worldView.getHeight()/2)
+            x=globalWidth-worldView.getHeight()/2;
+        if(y<worldView.getWidth()/2)
+            y=globalHeight -worldView.getWidth()/2;
+
+
+//        if(x>screenWidth-ballRadius)
+//            xSpeed=0;
+//        if(y>screenHeight*3-ballRadius)
+//            ySpeed=0;
+//        if(x<ballRadius)
+//            xSpeed=0;
+//        if(y<ballRadius)
+//            ySpeed=0;
+//            if(worldView.connected=false)
+//                ySpeed=ySpeed/(-1);
+//            else
+//                if(worldView.onScreen=true)
+//                    sendBluetoothMessage();
+
+
+//        if((x>globalWidth-ballRadius)&&(xSpeed>0))
+//            xSpeed=xSpeed/(-1);
+//        if((y>globalHeight-ballRadius)&&(ySpeed>0))
+//            ySpeed=ySpeed/(-1);
+//        if((x<ballRadius)&&(xSpeed<0))
+//            xSpeed=xSpeed/(-1);
+//        if((y<ballRadius)&&(ySpeed<0))
+//            ySpeed=ySpeed/(-1);
+
+
 
     }
 
-    public void onDraw(Canvas canvas){
+    public void updateSpeed(){
+        if(preweight!=weight) {
 
+            float xaxis=(float)(xSpeed / Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)));
+            float yaxis=(float)(ySpeed / Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)));
+            controlSpeed(xaxis,yaxis);
 
+            preweight=weight;
+        }
+    }
 
+    public void controlSpeed(float xaxis,float yaxis){
+        float tspeed=25;
+//        if(xSpeed==0&&ySpeed==0)
+//            tspeed=25;
+//        else
+//            tspeed=(float)(Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)));
+
+        xSpeed=tspeed*xaxis/(1 + (weight - 50) /200);
+        ySpeed=tspeed*yaxis/(1 + (weight - 50) / 200);
+
+    }
+
+    public void onDraw(Canvas canvas) {
+        Paint paint=new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+
+        updataScore();
+        updateSpeed();
         updatePhysics();
         if(worldView.onScreen){
             moveBall();
-            updatePosition(x, y);
-            canvas.drawCircle(worldView.getScreenWidth() / 2, worldView.getScreenHeight() / 2, ballRadius, paintCircle);
-            canvas.drawText(playerName,worldView.getScreenWidth()/2,textBaseY ,paintName);
+       //     updatePosition(x, y);
+            canvas.drawCircle(worldView.getWidth() / 2, worldView.getHeight() / 2, ballRadius, paint);
+            paint.setColor(Color.YELLOW);
+            canvas.drawCircle(worldView.getWidth() / 2, worldView.getHeight() / 2, ballRadius - 5, paint);
+            canvas.drawText(playerName, worldView.getWidth() / 2,textBaseY ,paintName);
+
         }
     }
 
-    public void sendBluetoothMessage(){
-        try{
-            StringBuffer sb = new StringBuffer();
-            sb.append("ShowOnScreen");
-            sb.append(",");
-            sb.append(String.valueOf(worldWidth));
-            sb.append(",");
-            sb.append(String.valueOf(worldHeight));
-            sb.append(",");
-            sb.append(String.valueOf(x));
-            sb.append(",");
-            sb.append(String.valueOf(y));
-            sb.append(",");
-            sb.append(String.valueOf(xSpeed));
-            sb.append(",");
-            sb.append(String.valueOf(ySpeed));
-            sb.append("\n");
-
-            worldView.onScreen=false;
-            worldView.outputStream.write(sb.toString().getBytes());
-            worldView.outputStream.flush();
-
-        } catch (IOException e) {
-//           e.printStackTrace();
+    public void subOnDraw(Canvas canvas,Ball ori_ball,boolean flag){
+        Paint paint=new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        if(flag)
+        updateSpeed();
+    //    updatePhysics();
+        if(worldView.onScreen){
+            moveBall();
+            updatePosition(ori_ball);
+            canvas.drawCircle(worldView.getWidth() / 2 + this.y - ori_ball.y, worldView.getHeight() / 2 + this.x - ori_ball.x, ballRadius, paint);
+            paint.setColor(Color.BLUE);
+            canvas.drawCircle(worldView.getWidth() / 2 + this.y - ori_ball.y, worldView.getHeight() / 2 + this.x - ori_ball.x, ballRadius - 5, paint);
+            canvas.drawText(playerName, worldView.getWidth()/2 + this.y - ori_ball.y, worldView.getHeight() / 2 + this.x - ori_ball.x, paintName);
         }
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
+//    public void sendBluetoothMessage(){
+//        try{
+//            StringBuffer sb = new StringBuffer();
+//            sb.append("ShowOnScreen");
+//            sb.append(",");
+//            sb.append(String.valueOf(screenWidth));
+//            sb.append(",");
+//            sb.append(String.valueOf(screenHeight));
+//            sb.append(",");
+//            sb.append(String.valueOf(x));
+//            sb.append(",");
+//            sb.append(String.valueOf(y));
+//            sb.append(",");
+//            sb.append(String.valueOf(xSpeed));
+//            sb.append(",");
+//            sb.append(String.valueOf(ySpeed));
+//            sb.append("\n");
+//
+//            worldView.onScreen=false;
+//            worldView.outputStream.write(sb.toString().getBytes());
+//            worldView.outputStream.flush();
+//
+//        } catch (IOException e) {
+////           e.printStackTrace();
+//        }
+//    }
 
-    public void setY(float y) {
-        this.y = y;
-    }
 
-    public float getY() {
-        return y;
-    }
-
-    public float getX() {
-        return x;
-    }
 
     public float getxSpeed() {
         return xSpeed;
@@ -162,20 +219,56 @@ public class Ball {
         this.ballRadius = ballRadius;
     }
 
-    public void updatePosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+    public WorldView getWorldView() {
+        return worldView;
     }
 
-    public void setTotalSpeed(float totalSpeed) {
-        this.totalSpeed = totalSpeed;
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
-    public float getTotalSpeed() {
-        return totalSpeed;
+    public void setPreweight(float preweight) {
+        this.preweight = preweight;
+    }
+//
+
+
+    public int getScore() {
+        return score;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+
+//    public void updatePosition(Ball oriball) {
+//        float rex=x-oriball.x;
+//        float rey=y-oriball.y;
+//        if(x>=globalWidth-540+rex)
+//            x=540+rex;
+//        if(y>=globalHeight -960+rey)
+//            y=960+rey;
+//        if(x<540+rex)
+//            x=globalWidth-540+rex;
+//        if(y<960+rey)
+//            y=globalHeight -960+rey;
+//    }
+
+
+    public void updatePosition(Ball oriball) {
+        float rex=x-oriball.x;
+        float rey=y-oriball.y;
+        if(x>=globalWidth-worldView.getHeight()/2+rex)
+            x=worldView.getHeight()/2+rex;
+        if(y>=globalHeight -worldView.getWidth() / 2+rey)
+            y=worldView.getWidth() / 2+rey;
+        if(x<worldView.getHeight()/2+rex)
+            x=globalWidth-worldView.getHeight()/2+rex;
+        if(y<worldView.getWidth() / 2+rey)
+            y=globalHeight -worldView.getWidth() / 2+rey;
+    }
+
+    public void updataScore(){
+        score=(int)Math.round((Math.pow(weight,2)-2500)/900);
     }
 }

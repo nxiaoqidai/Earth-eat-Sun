@@ -45,7 +45,7 @@ public class LightSensor implements SensorEventListener {
             long curTime = System.currentTimeMillis();
             if ((curTime - lastUpdate) > 100) {
                 lastUpdate = curTime;
-                if (lux > 50)
+                if (lux > 15)
                     worldView.setDarkMode(true);
                 else
                     worldView.setDarkMode(false);
@@ -56,4 +56,3 @@ public class LightSensor implements SensorEventListener {
     }
 
 }
-

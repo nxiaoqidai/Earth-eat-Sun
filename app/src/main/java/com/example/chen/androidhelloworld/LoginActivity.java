@@ -1,7 +1,7 @@
 package com.example.chen.androidhelloworld;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,8 +14,7 @@ import android.widget.Switch;
 /**
  * Created by chenxixiang on 15/10/5.
  */
-public class LoginActivity extends Activity {
-
+public class LoginActivity extends Activity{
     private EditText editUsername;
     private String username;
 
@@ -23,6 +22,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.login);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         editUsername=(EditText) findViewById(R.id.editText1);
@@ -30,14 +30,12 @@ public class LoginActivity extends Activity {
         final RadioButton singlePlayerButton = (RadioButton) findViewById(R.id.singleplayer);
         final RadioButton toughButton =(RadioButton) findViewById(R.id.radioButton3);
         final Switch nightMareModeSwitch =(Switch) findViewById(R.id.nightmare);
-        final Switch serverModeSwitch =(Switch) findViewById(R.id.serverMode);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Boolean isSingle;
-                Boolean isNightmare;
-                Boolean isGravity;
-                Boolean isServer;
+                Boolean isNightmare=true;
+                Boolean isGravity=true;
 
                 if (editUsername.getText().toString().equals(""))
                     username="Anonymous";
@@ -49,9 +47,8 @@ public class LoginActivity extends Activity {
 
                 isGravity = !toughButton.isChecked();
                 isNightmare = nightMareModeSwitch.isChecked();
-                isServer= serverModeSwitch.isChecked();
 
-                PlayerInfo playerInfo=new PlayerInfo(username,isSingle,isNightmare,isGravity,isServer);
+                PlayerInfo playerInfo=new PlayerInfo(username,isSingle,isNightmare,isGravity);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("playerInfo", playerInfo);
 
