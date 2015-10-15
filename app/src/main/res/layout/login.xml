@@ -70,18 +70,6 @@
             android:layout_toEndOf="@+id/radioGroup1"
             android:onClick="singlePlayer"/>
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Nightmare Mode"
-            android:id="@+id/nightmare"
-            android:clickable="true"
-            android:checked="false"
-            android:layout_centerVertical="true"
-            android:layout_alignStart="@+id/textView1"
-            android:onClick="nightmareMode"/>
-
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,6 +121,18 @@
             android:layout_toEndOf="@+id/textView2" />
 
     </RadioGroup>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Nightmare Mode"
+        android:id="@+id/nightmare"
+        android:clickable="true"
+        android:checked="false"
+        android:onClick="nightmareMode"
+        android:layout_alignTop="@+id/players"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.chen.androidhelloworld;
+package com.example.chen.EarthEatSun;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,7 +14,7 @@ import android.widget.Switch;
 /**
  * Created by chenxixiang on 15/10/5.
  */
-public class LoginActivity extends Activity{
+public class LoginActivity extends Activity {
     private EditText editUsername;
     private String username;
 
@@ -25,20 +25,20 @@ public class LoginActivity extends Activity{
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.login);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        editUsername=(EditText) findViewById(R.id.editText1);
+        editUsername = (EditText) findViewById(R.id.editText1);
         Button startButton = (Button) findViewById(R.id.button1);
         final RadioButton singlePlayerButton = (RadioButton) findViewById(R.id.singleplayer);
-        final RadioButton toughButton =(RadioButton) findViewById(R.id.radioButton3);
-        final Switch nightMareModeSwitch =(Switch) findViewById(R.id.nightmare);
+        final RadioButton toughButton = (RadioButton) findViewById(R.id.radioButton3);
+        final Switch nightMareModeSwitch = (Switch) findViewById(R.id.nightmare);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Boolean isSingle;
-                Boolean isNightmare=true;
-                Boolean isGravity=true;
+                Boolean isNightmare = true;
+                Boolean isGravity = true;
 
                 if (editUsername.getText().toString().equals(""))
-                    username="Anonymous";
+                    username = "Anonymous";
                 else
                     username = editUsername.getText().toString();
 
@@ -48,22 +48,23 @@ public class LoginActivity extends Activity{
                 isGravity = !toughButton.isChecked();
                 isNightmare = nightMareModeSwitch.isChecked();
 
-                PlayerInfo playerInfo=new PlayerInfo(username,isSingle,isNightmare,isGravity);
+                PlayerInfo playerInfo = new PlayerInfo(username, isSingle, isNightmare, isGravity);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("playerInfo", playerInfo);
 
                 Intent startGameIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startGameIntent.putExtras(bundle);
                 LoginActivity.this.startActivity(startGameIntent);
+                System.exit(0);
             }
         });
     }
 
-    public void singlePlayer(View view){
+    public void singlePlayer(View view) {
 
     }
 
-    public void nightmareMode(View view){
+    public void nightmareMode(View view) {
 
     }
 

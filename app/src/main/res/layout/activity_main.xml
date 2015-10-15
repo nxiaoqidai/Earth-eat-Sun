@@ -7,7 +7,7 @@
     android:screenOrientation="landscape"
     tools:context=".MainActivity">
 
-    <com.example.chen.androidhelloworld.WorldView
+    <com.example.chen.EarthEatSun.WorldView
         android:id="@+id/worldView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -24,18 +24,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:onClick="splitButton" />
-
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Rank:"
-        android:id="@+id/rank"
-        android:layout_gravity="right|top"
-        android:layout_marginRight="20dp"/>
-
 
 
 </FrameLayout>

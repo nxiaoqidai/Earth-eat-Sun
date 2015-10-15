@@ -1,4 +1,4 @@
-package com.example.chen.androidhelloworld;
+package com.example.chen.EarthEatSun;
 
 import java.io.Serializable;
 

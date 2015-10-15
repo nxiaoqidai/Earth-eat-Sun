@@ -1,4 +1,4 @@
-package com.example.chen.androidhelloworld;
+package com.example.chen.EarthEatSun;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -19,16 +19,16 @@ public class LightSensor implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor lightSensor;
 
-    public LightSensor(WorldView worldView, Context context){
-        this.worldView=worldView;
-        this.context=context;
+    public LightSensor(WorldView worldView, Context context) {
+        this.worldView = worldView;
+        this.context = context;
 
         startSensor();
     }
 
-    public void startSensor(){
-        mSensorManager=(SensorManager) context.getSystemService(context.SENSOR_SERVICE);
-        lightSensor =mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+    public void startSensor() {
+        mSensorManager = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
+        lightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mSensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
@@ -50,7 +50,7 @@ public class LightSensor implements SensorEventListener {
                 else
                     worldView.setDarkMode(false);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("Error", e.toString());
         }
     }
