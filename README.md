@@ -1,4 +1,4 @@
-# Game Earth-eat-Sun
+# Game Earth-eat-Sun(Android-game)
 
 
 An android game in API 19
